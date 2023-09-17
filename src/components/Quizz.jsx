@@ -1,14 +1,8 @@
 'use client'
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 
-const Quizz = ({ question, onNext, onPrevious, onComplete, lists, currentQuestionIndex }) => {
+const Quizz = ({ question, submitAnswer, userResponse, handleResponseChange, onComplete, lists, currentQuestionIndex }) => {
     const isLastQuestion = currentQuestionIndex === lists.length - 1;
-
-    const [userResponse, setUserResponse] = useState('');
-
-    const handleResponseChange = (event) => {
-        setUserResponse(event.target.value);
-    };
 
     return (
         <div className='flex flex-col justify-center items-center gap-y-20'>
@@ -24,23 +18,16 @@ const Quizz = ({ question, onNext, onPrevious, onComplete, lists, currentQuestio
                 <p className='font-semibold text-white text-3xl p-6'>{question}</p>
             </div>
             <div className='w-[50%] flex justify-center items-center mx-auto'>
-                <input className='text-gray-500 pl-3 border-4 border-yellow-200 w-[50%] h-[50px]' 
-                value={userResponse}
-                onChange={handleResponseChange} 
-                type="text" />
+                <input className='text-gray-500 pl-3 border-4 border-yellow-200 w-[50%] h-[50px]'
+                    value={userResponse}
+                    onChange={handleResponseChange}
+                    type="text" />
             </div>
-            <div className='w-[70%] flex justify-between items-center'>
-                <button
-                    onClick={onPrevious}
-                    className='border p-3 bg-gray-300 font-semibold text-black flex justify-center items-center'
-                    disabled={currentQuestionIndex === 0} // Disable button question jika berada pada index ke 0
-                >
-                    <span><img width="25" height="25" src="https://img.icons8.com/ios-glyphs/30/sort-left.png" alt="sort-left" /></span> Previous
-                </button>
+            <div className='w-[70%] flex justify-center items-center'>
                 {isLastQuestion ? (
                     <button onClick={onComplete} className='border p-3 bg-green-300 text-white font-semibold flex justify-center items-center'>Complete</button>
                 ) : (
-                    <button onClick={onNext} className='border p-3 bg-yellow-300 text-white font-semibold flex justify-center items-center'>Next <span className='ml-2'><img width="24" height="24" src="https://img.icons8.com/material/24/FFFFFF/circled-chevron-right.png" alt="circled-chevron-right" /></span></button>
+                    <button onClick={submitAnswer} className='border p-3 bg-yellow-300 text-white font-semibold flex justify-center items-center'>Answer And Next <span className='ml-2'><img width="24" height="24" src="https://img.icons8.com/material/24/FFFFFF/circled-chevron-right.png" alt="circled-chevron-right" /></span></button>
                 )}
             </div>
         </div>

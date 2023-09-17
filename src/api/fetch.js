@@ -36,7 +36,7 @@ const getAllQuestion = async (quizId) => {
     }
 }
 
-const userResponseAnswer = async (questionId, userAnswer) => {
+const userResponseAnswer = async ({ questionId, userAnswer }) => {
     try {
         const response = await instance.post(`/response-user/${questionId}`, { userAnswer })
         return response.data
@@ -45,4 +45,13 @@ const userResponseAnswer = async (questionId, userAnswer) => {
     }
 }
 
-module.exports = { userRegister, userLogin, getAllQuiz, getAllQuestion, userResponseAnswer}
+const calculateScoreBoard = async (quizId) => {
+    try {
+        const response = await instance.get(`/quizzes/${quizId}/score`)
+        return response.data
+    } catch (error) {
+        throw new Error(error.response.data.message || 'Something Went Wrong')
+    }
+}
+
+module.exports = { userRegister, userLogin, getAllQuiz, getAllQuestion, userResponseAnswer, calculateScoreBoard}

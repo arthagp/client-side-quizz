@@ -2,11 +2,34 @@
 import React, { useEffect, useState } from 'react'
 import Quizz from '@/components/Quizz'
 import Navbar from '@/components/Navbar'
-import { getAllQuestion, userResponseAnswer } from '@/api/fetch'
+import ModalScore from '@/components/ModalScore'
+import { getAllQuestion, userResponseAnswer, calculateScoreBoard } from '@/api/fetch'
 
 const QuizzPage = ({ params }) => {
+    const [userResponse, setUserResponse] = useState('')
     const [questions, setQuestions] = useState([])
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+    const [scores, setScores] = useState();
+    const [showScore, setShowScore] = useState(false)
+
+
+    const handleResponseChange = (e) => {
+        return setUserResponse(e.target.value)
+    }
+
+    let indexQuizId = currentQuestionIndex + 1
+
+    const handleAnswerUser = async () => {
+        try {
+            const response = await userResponseAnswer({ questionId: indexQuizId, userAnswer: userResponse })
+            if (response) {
+                goToNextQuestion()
+                setUserResponse('')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const fetchQuestions = async () => {
         try {
@@ -16,6 +39,8 @@ const QuizzPage = ({ params }) => {
             console.log(error)
         }
     }
+
+    // console.log(questions, '<><><><')
 
     useEffect(() => {
         fetchQuestions()
@@ -27,18 +52,24 @@ const QuizzPage = ({ params }) => {
         }
     }
 
-    const goToPreviousQuestion = () => {
-        if (currentQuestionIndex > 0) {
-            setCurrentQuestionIndex(currentQuestionIndex - 1)
+    const calculateScore = async () => {
+
+        try {
+            await handleAnswerUser()
+            const response = await calculateScoreBoard(params.slug) // masukan id dari quiz_id
+            if (response) {
+                console.log(response.data, "nilai keluar")
+                setScores(response.data)
+                setShowScore(true)
+            }
+        } catch (error) {
+            console.log(error)
         }
     }
 
-    // API untuk user menjawab pertanyaan brdasarkan id : userResponseAnswer
-    // 
-    const calculateScore = () => {
-
+    const handleClose = () => {
+        return setShowScore(false)
     }
-
     return (
         <>
             <Navbar />
@@ -48,10 +79,15 @@ const QuizzPage = ({ params }) => {
                     question={questions[currentQuestionIndex].questions_text}
                     currentQuestionIndex={currentQuestionIndex}
                     onComplete={calculateScore}
-                    onNext={goToNextQuestion}
-                    onPrevious={goToPreviousQuestion}
+                    // onNextAndAnswer={goToNextQuestion}
+                    submitAnswer={handleAnswerUser}
+                    userResponse={userResponse}
+                    handleResponseChange={handleResponseChange}
                     lists={questions}
                 />
+            )}
+            {showScore && (
+                <ModalScore score={scores} closeModal={handleClose}/>
             )}
         </>
     )
