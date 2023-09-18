@@ -1,19 +1,48 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { getAllQuiz } from '@/api/fetch';
+import { getAllQuiz, deleteScoreBoard, getAlreadyScoreBoard, deleteUserResponseAnswer } from '@/api/fetch';
 import Card from './Card';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
-const ModalQuizz = ({handleCloseBtn}) => {
+const ModalQuizz = ({ handleCloseBtn }) => {
   const [quizzes, setQuizzes] = useState([]);
+  const [isAlready, setIsAlready] = useState(false)
   const router = useRouter()
-  
+
   const fetchAllQuiz = async () => {
     try {
       const response = await getAllQuiz();
       setQuizzes(response.data);
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  const userId = Cookies.get('id')
+
+  const cekAlreadyQuizz = async (quizId) => {
+    try {
+      const response = await getAlreadyScoreBoard(quizId, userId)
+      if (response) {
+        console.log(response.data)
+        setIsAlready(true)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+  const handleStartAndDelete = async (quizId) => {
+    try {
+      const responseScoreBoard = await deleteScoreBoard(quizId, userId)
+      const responseUserAnswer = await deleteUserResponseAnswer(quizId, userId)
+      if (responseScoreBoard && responseUserAnswer) {
+        router.push(`/${quizId}`)
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -33,7 +62,15 @@ const ModalQuizz = ({handleCloseBtn}) => {
           <div className='px-6 py-4'>
             <h1 className='text-2xl font-semibold mb-4 opacity-70'>Available Quizzes</h1>
             {quizzes.map((quizz, index) => (
-              <Card key={index} title={quizz.title} description={quizz.description} startQuizz={() => {handleOpenQuizz(quizz.id)}}/>
+              cekAlreadyQuizz(quizz.id),
+              < Card
+                key={index}
+                title={quizz.title}
+                description={quizz.description}
+                startQuizz={() => { handleOpenQuizz(quizz.id) }}
+                startAndDeleteScore={() => {handleStartAndDelete(quizz.id)}}
+                alreadyQuizz={isAlready}
+              />
             ))}
           </div>
           <div className='bg-yellow-100 px-6 py-4 flex justify-end bottom-0 fixed w-full'>

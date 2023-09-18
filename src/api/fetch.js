@@ -54,4 +54,31 @@ const calculateScoreBoard = async (quizId) => {
     }
 }
 
-module.exports = { userRegister, userLogin, getAllQuiz, getAllQuestion, userResponseAnswer, calculateScoreBoard}
+const deleteScoreBoard = async (quizId, userId) => {
+    try {
+        const response = await instance.delete(`/scoreboard/${quizId}`, { userId })
+        return response.data
+    } catch (error) {
+        throw new Error(error.response.data.message || 'Something Went Wrong')
+    }
+}
+
+const getAlreadyScoreBoard = async (quizId, userId) => {
+    try {
+        const response = await instance.get(`/scoreboard/${quizId}`, { userId })
+        return response.data
+    } catch (error) {
+        throw new Error(error.response.data.message || 'Something Went Wrong')
+    }
+}
+
+const deleteUserResponseAnswer = async (quizId, userId) => {
+    try {
+        const response = await instance.delete(`/response-user/${quizId}`, { userId })
+        return response.data
+    } catch (error) {
+        throw new Error(error.response.data.message || 'Something Went Wrong')
+    }
+}
+
+module.exports = { userRegister, userLogin, getAllQuiz, getAllQuestion, userResponseAnswer, calculateScoreBoard, deleteScoreBoard, getAlreadyScoreBoard, deleteUserResponseAnswer }
