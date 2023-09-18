@@ -1,13 +1,22 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import ModalQuizz from './ModalQuizz'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/navigation'
 
 const Hero = () => {
+  const router = useRouter()
   const [showModal, setShowModal] = useState(false)
 
+  const isLogged = Cookies.get('token')
+
   const handleShowModal = () => {
-    setShowModal(true)
+    if (!isLogged) {
+      router.push('/login')
+    } else {
+      setShowModal(true)
+    }
   }
   const handleCloseModal = () => {
     setShowModal(false)

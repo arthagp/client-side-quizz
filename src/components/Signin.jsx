@@ -59,7 +59,9 @@ const Signin = () => {
   return (
     <div className='w-full flex justify-center items-center h-screen'>
       <div className='w-[50%] flex flex-col justify-center items-center h-screen'>
-        <h1 className='font-bold text-6xl my-16'>Quiz<span className='text-yellow-300'>zer</span></h1>
+        <Link href={'/'}>
+          <h1 className='font-bold text-6xl my-16'>Quiz<span className='text-yellow-300'>zer</span></h1>
+        </Link>
         <p className='opacity-60 my-2'>Welcome Back!</p>
         <p className='opacity-60 mb-10'>Please Login/Signup to your account</p>
         <form className='flex flex-col w-[390px]' onSubmit={formik.handleSubmit}>

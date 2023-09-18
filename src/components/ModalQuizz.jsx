@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { getAllQuiz, deleteScoreBoard, getAlreadyScoreBoard, deleteUserResponseAnswer } from '@/api/fetch';
 import Card from './Card';
 import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
 
 const ModalQuizz = ({ handleCloseBtn }) => {
   const [quizzes, setQuizzes] = useState([]);
@@ -19,11 +18,9 @@ const ModalQuizz = ({ handleCloseBtn }) => {
     }
   }
 
-  const userId = Cookies.get('id')
-
   const cekAlreadyQuizz = async (quizId) => {
     try {
-      const response = await getAlreadyScoreBoard(quizId, userId)
+      const response = await getAlreadyScoreBoard(quizId)
       if (response) {
         console.log(response.data)
         setIsAlready(true)
@@ -36,8 +33,8 @@ const ModalQuizz = ({ handleCloseBtn }) => {
 
   const handleStartAndDelete = async (quizId) => {
     try {
-      const responseScoreBoard = await deleteScoreBoard(quizId, userId)
-      const responseUserAnswer = await deleteUserResponseAnswer(quizId, userId)
+      const responseScoreBoard = await deleteScoreBoard(quizId)
+      const responseUserAnswer = await deleteUserResponseAnswer(quizId)
       if (responseScoreBoard && responseUserAnswer) {
         router.push(`/${quizId}`)
       }
@@ -68,7 +65,7 @@ const ModalQuizz = ({ handleCloseBtn }) => {
                 title={quizz.title}
                 description={quizz.description}
                 startQuizz={() => { handleOpenQuizz(quizz.id) }}
-                startAndDeleteScore={() => {handleStartAndDelete(quizz.id)}}
+                startAndDeleteScore={() => { handleStartAndDelete(quizz.id) }}
                 alreadyQuizz={isAlready}
               />
             ))}

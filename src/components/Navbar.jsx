@@ -28,9 +28,13 @@ const Navbar = () => {
                 <li>
                     <Link className='opacity-50 hover:opacity-80' href={'/'}>Home</Link>
                 </li>
-                <li>
-                    <Link className='opacity-50 hover:opacity-80' href={'#'}>Features</Link>
-                </li>
+                {
+                    isLogged && (
+                        <li>
+                            <Link className='opacity-50 hover:opacity-80' href={'/my-quizz'}>My Quizz</Link>
+                        </li>
+                    )
+                }
                 <li>
                     <Link className='opacity-50 hover:opacity-80' href={'#'}>About us</Link>
                 </li>
