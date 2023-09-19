@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { getAllQuiz, deleteScoreBoard, getAlreadyScoreBoard, deleteUserResponseAnswer } from '@/api/fetch';
 import Card from './Card';
 import { useRouter } from 'next/navigation';
+// terdapat kesalahan pada bagian getAlreadyScoreBoard ini melakukan error, karena score sudah tidak ada
 
 const ModalQuizz = ({ handleCloseBtn }) => {
   const [quizzes, setQuizzes] = useState([]);
@@ -18,17 +19,17 @@ const ModalQuizz = ({ handleCloseBtn }) => {
     }
   }
 
-  const cekAlreadyQuizz = async (quizId) => {
-    try {
-      const response = await getAlreadyScoreBoard(quizId)
-      if (response) {
-        console.log(response.data)
-        setIsAlready(true)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const cekAlreadyQuizz = async (quizId) => {
+  //   try {
+  //     const response = await getAlreadyScoreBoard(quizId)
+  //     if (response) {
+  //       console.log(response.data)
+  //       setIsAlready(true)
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
 
   const handleStartAndDelete = async (quizId) => {
@@ -59,7 +60,7 @@ const ModalQuizz = ({ handleCloseBtn }) => {
             <h1 className='text-2xl font-semibold mb-4 opacity-70 p-3'>Available Quizzes</h1>
           <div className='grid grid-cols-4 gap-x-3 m-3'>
             {quizzes.map((quizz, index) => (
-              cekAlreadyQuizz(quizz.id),
+              // cekAlreadyQuizz(quizz.id), // warning
               < Card
                 key={index}
                 title={quizz.title}

@@ -17,19 +17,24 @@ const QuizzPage = ({ params }) => {
         return setUserResponse(e.target.value)
     }
 
-    let indexQuizId = currentQuestionIndex + 1
 
     const handleAnswerUser = async () => {
         try {
-            const response = await userResponseAnswer({ questionId: indexQuizId, userAnswer: userResponse })
+            console.log(currentQuestionIndex, 'current')
+            // mendapatkan id dari questions -> questions[0].id example 
+            const questionId = questions[currentQuestionIndex].id;
+    
+            const response = await userResponseAnswer({ questionId, userAnswer: userResponse });
+            console.log(response, '<><><><>')
             if (response) {
-                goToNextQuestion()
-                setUserResponse('')
+                goToNextQuestion();
+                setUserResponse('');
             }
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
+    
 
     const fetchQuestions = async () => {
         try {
@@ -57,8 +62,7 @@ const QuizzPage = ({ params }) => {
         try {
             await handleAnswerUser()
             const response = await calculateScoreBoard(params.slug) // masukan id dari quiz_id
-            if (response) {
-                console.log(response.data, "nilai keluar")
+            if (response) { 
                 setScores(response.data)
                 setShowScore(true)
             }
