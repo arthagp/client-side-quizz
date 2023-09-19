@@ -56,8 +56,8 @@ const ModalQuizz = ({ handleCloseBtn }) => {
     <div className='fixed left-0 top-0 flex justify-center items-center backdrop-blur-sm backdrop-opacity-90 w-screen h-screen '>
       <div className='fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[80%] h-[90vh] border-t-2 border-yellow-400 rounded-sm'>
         <div className='bg-white rounded-lg shadow-lg h-full'>
-          <div className='px-6 py-4'>
-            <h1 className='text-2xl font-semibold mb-4 opacity-70'>Available Quizzes</h1>
+            <h1 className='text-2xl font-semibold mb-4 opacity-70 p-3'>Available Quizzes</h1>
+          <div className='grid grid-cols-4 gap-x-3 m-3'>
             {quizzes.map((quizz, index) => (
               cekAlreadyQuizz(quizz.id),
               < Card

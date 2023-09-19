@@ -90,9 +90,59 @@ const getAllQuizByUserId = async () => {
     }
 }
 
+
+const createQuizz = async (title, description) => {
+    try {
+        const response = await instance.post(`/create-quiz`, { title, description })
+        return response.data
+    } catch (error) {
+        throw new Error(error.response.data.message || 'Something Went Wrong')
+    }
+}
+
+const deleteQuizById = async (quizId) => {
+    try {
+        const response = await instance.delete(`/delete-quiz/${quizId}`)
+        return response.data
+    } catch (error) {
+        throw new Error(error.response.data.message || 'Something Went Wrong')
+    }
+}
+
+const editQuizId = async (quizId, title, description) => {
+    try {
+        const response = await instance.put(`/edit-quiz/${quizId}`, { title, description })
+        return response.data
+    } catch (error) {
+        throw new Error(error.response.data.message || 'Something Went Wrong')
+    }
+}
+
+// Question
 const addQuestionsByQuizId = async (quizId, questionText) => {
     try {
         const response = await instance.post(`/add-question/${quizId}`, { questionText })
+        return response.data
+    } catch (error) {
+        throw new Error(error.response.data.message || 'Something Went Wrong')
+    }
+}
+
+const editQuestion = async (questionId, questionText) => {
+    try {
+        const response = await instance.put(`/edit-question/${questionId}`, { questionText })
+        return response.data
+    } catch (error) {
+        throw new Error(error.response.data.message || 'Something Went Wrong')
+    }
+}
+
+// 
+
+// answer
+const editAnswer = async (answerId, answerText) => {
+    try {
+        const response = await instance.put(`/questions/${answerId}/answers`, { answerText })
         return response.data
     } catch (error) {
         throw new Error(error.response.data.message || 'Something Went Wrong')
@@ -107,13 +157,7 @@ const addAnswerQuestion = async (questionId, answerText) => {
     }
 }
 
-const createQuizz = async (title, description) => {
-    try {
-        const response = await instance.post(`/create-quiz`, { title, description })
-        return response.data
-    } catch (error) {
-        throw new Error(error.response.data.message || 'Something Went Wrong')
-    }
-}
+// 
 
-module.exports = { userRegister, userLogin, getAllQuiz, getAllQuestion, userResponseAnswer, calculateScoreBoard, deleteScoreBoard, getAlreadyScoreBoard, deleteUserResponseAnswer, getAllQuizByUserId, addQuestionsByQuizId, addAnswerQuestion, createQuizz }
+
+module.exports = { userRegister, userLogin, getAllQuiz, getAllQuestion, userResponseAnswer, calculateScoreBoard, deleteScoreBoard, getAlreadyScoreBoard, deleteUserResponseAnswer, getAllQuizByUserId, addQuestionsByQuizId, addAnswerQuestion, createQuizz, deleteQuizById, editQuizId, editQuestion, editAnswer }
