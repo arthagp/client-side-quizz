@@ -25,7 +25,7 @@ const QuizzPage = ({ params }) => {
             const questionId = questions[currentQuestionIndex].id;
     
             const response = await userResponseAnswer({ questionId, userAnswer: userResponse });
-            console.log(response, '<><><><>')
+            // console.log(response, '<><><><>')
             if (response) {
                 goToNextQuestion();
                 setUserResponse('');

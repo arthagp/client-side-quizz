@@ -29,7 +29,7 @@ const Hero = () => {
         <p className='border-l border-black pl-4 mt-4 opacity-60'>We can help you become smarter as soon as possible.</p>
         <button onClick={handleShowModal} className='drop-shadow-xl border-yellow-400 max-w-[150px] text-white font-semibold bg-yellow-400 border py-1 px-3 mt-6 shadow-yellow-600 shadow-2xl'>Start Quizz</button>
       </div>
-      <Image src={'/heroes.png'} width={450} height={400} alt='heroesImg' />
+      <Image src={'/heroes.png'} width={450} height={400} priority alt='heroesImg' />
       {showModal && (
         <ModalQuizz handleCloseBtn={handleCloseModal} />
       )}

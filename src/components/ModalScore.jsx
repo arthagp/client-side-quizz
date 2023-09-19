@@ -10,7 +10,7 @@ const ModalScore = ({score, closeModal}) => {
                     <div className='flex flex-col justify-center items-center'>
                         <Image src={'/score.png'} width={430} height={400} alt='score'/>
                         <div className='fixed font-bold text-5xl text-white flex flex-col justify-center items-center'>
-                        <h1 className='m-3'>Your Score</h1>
+                        <h1 className='m-3'>Total Score</h1>
                         <h2 className='m-3'>{score}</h2>
                         </div>
                     </div>
